@@ -7,7 +7,7 @@ const int SizeX = 1200;
 const int SizeY = 1000;
 
 const double XY_Scale  = 2*1e6;
-      double VecScale  =   1e6;
+      double VecScale  =   1e7;
 
 
 int XToPixels (double x);
@@ -19,6 +19,9 @@ double YToKMs (double y);
 void Draw (MassPoint point, COLORREF color);
 void Circle (Vector pos, double radius, COLORREF color);
 void Circle_3D (double x, double y, double radius, COLORREF color);
+
+void Line (Vector p1, Vector p2, COLORREF color, int width);
+void Draw (Vector Vector_, Vector Base, COLORREF color, int width);
 
 void FreezingSystem (void);
 
@@ -57,26 +60,26 @@ void Circle (Vector pos, double radius, COLORREF color)
     Circle_3D ( XToPixels (pos.x) , YToPixels (pos.y) , radius, color );
 }
 
-void Line (Vec p1, Vec p2, COLORREF color, int width)
+void Line (Vector p1, Vector p2, COLORREF color, int width)
 {
     txSetColor (color, width);
 
     txLine ( XToPixels (p1.x), YToPixels (p1.y), XToPixels (p2.x), YToPixels (p2.y) );
 }
 
-void Draw (Vec Vector, Vec Base, COLORREF color, int width)
+void Draw (Vector Vector_, Vector Base, COLORREF color, int width)
 {
-    Vector = Mul (Vector, VecScale);
+    Vector_ = Mul (Vector_, VecScale);
 
     txSetColor (color);
-    Line (Base, Base + Vector, color, width);
+    Line (Base, Base + Vector_, color, width);
 
-    Vector arr = v/10;
+    Vector arr = Vector_/10;
     Vector norm1 = Vector {  arr.y, -arr.x },
            norm2 = Vector { -arr.y,  arr.x };
 
-    Line (Base + v, Base + v + (norm1 - arr), color, width);
-    Line (Base + v, Base + v + (norm2 - arr), color, width);
+    Line (Base + Vector_, Base + Vector_ + (norm1 - arr), color, width);
+    Line (Base + Vector_, Base + Vector_ + (norm2 - arr), color, width);
 }
 
 void FreezingSystem (void)
