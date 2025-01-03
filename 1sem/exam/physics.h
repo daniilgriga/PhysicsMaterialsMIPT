@@ -17,6 +17,8 @@ const int RAD_EARTH   = 6400*KM;
 const int RAD_MOON    = 1737*KM;
 const int RAD_COMET   = 900*KM;
 
+const double MOON_SPEED = 1.02 * KM/S;
+
 const double GRAVITY_CONST = 6.67e-11;
 
 struct MassPoint
@@ -32,11 +34,37 @@ struct MassPoint
     int valid;
 };
 
-Vector Gravity (MassPoint point_1, MassPoint point_2)
-{
-    double Force  = GRAVITY_CONST * point_1.m * point_2.m / Dist2 (point_1.pos, point_2.pos);
+Vector Gravity (MassPoint Point_1, MassPoint Point_2);
 
-    Vector ForceV = +(point_1.pos - point_2.pos) * Force;
+Vector CentrifugalForce (MassPoint Point, MassPoint centre);
+
+void Kinematics (MassPoint* Point, Vector Force);
+
+// #==================================================================================# //
+
+Vector Gravity (MassPoint Point_1, MassPoint Point_2)
+{
+    double Force  = GRAVITY_CONST * Point_1.m * Point_2.m / Dist2 (Point_1.pos, Point_2.pos);
+
+    Vector ForceV = +(Point_1.pos - Point_2.pos) * Force;
 
     return ForceV;
+}
+
+Vector CentrifugalForce (MassPoint Point, MassPoint centre)
+{
+    double Velocity = MOON_SPEED * Length (Point.pos) / DIST_EARTH_MOON;
+
+    double CentrifugalForce = Point.m * sqr (Velocity) / Length (Point.pos - centre.pos);
+
+    Vector CentrifugalForceV = +Point.pos * CentrifugalForce;
+
+    return CentrifugalForceV;
+}
+
+void Kinematics (MassPoint* Point, Vector Force)
+{
+    Point->a   = Force / Point->m;
+    Point->v   = Point->v   + Point->a * dT;
+    Point->pos = Point->pos + Point->v * dT;
 }
