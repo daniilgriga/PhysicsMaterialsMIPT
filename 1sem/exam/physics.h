@@ -17,6 +17,8 @@ const int RAD_EARTH   = 6400*KM;
 const int RAD_MOON    = 1737*KM;
 const int RAD_COMET   = 900*KM;
 
+const double GRAVITY_CONST = 6.67e-11;
+
 struct MassPoint
 {
     Vector pos;
@@ -29,3 +31,12 @@ struct MassPoint
 
     int valid;
 };
+
+Vector Gravity (MassPoint point_1, MassPoint point_2)
+{
+    double Force  = GRAVITY_CONST * point_1.m * point_2.m / Dist2 (point_1.pos, point_2.pos);
+
+    Vector ForceV = +(point_1.pos - point_2.pos) * Force;
+
+    return ForceV;
+}
