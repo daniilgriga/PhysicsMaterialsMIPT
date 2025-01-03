@@ -18,6 +18,10 @@ void Draw (MassPoint point, COLORREF color);
 void Circle (Vector pos, double radius, COLORREF color);
 void Circle_3D (double x, double y, double radius, COLORREF color);
 
+void FreezingSystem (void);
+
+// #==============================================================================# //
+
 int XToPixels (double x) { return (int) round  (x/XY_Scale) + SizeX/2; }
 
 int YToPixels (double y) { return (int) round (-y/XY_Scale) + SizeY/2; }
@@ -28,7 +32,7 @@ double YToKMs (double y) { return (-y + SizeY/2) * XY_Scale; }
 
 void Draw (MassPoint point, COLORREF color)
 {
-    Circle (point.pos, point.r / XY_Scale * 8, color);
+    Circle (point.pos, point.r / XY_Scale * 9, color);
 }
 
 void Circle_3D (double x, double y, double radius, COLORREF color)
@@ -39,7 +43,7 @@ void Circle_3D (double x, double y, double radius, COLORREF color)
 
     for (double t = 0; t <= 1; t += 0.1)
     {
-        double t0 = pow (t, 0.3);
+        double t0 = pow (t + 0.15, 0.3);
         txColor (r*t0, g*t0, b*t0);
         txFillColor (r*t0, g*t0, b*t0);
         txCircle (x, y, radius * (1 - t));
@@ -49,4 +53,14 @@ void Circle_3D (double x, double y, double radius, COLORREF color)
 void Circle (Vector pos, double radius, COLORREF color)
 {
     Circle_3D ( XToPixels (pos.x) , YToPixels (pos.y) , radius, color );
+}
+
+
+void FreezingSystem (void)
+{
+    if (GetKeyState (VK_CAPITAL))
+        {
+            txSetFillColor (TX_BLACK);
+            txClear();
+        }
 }
