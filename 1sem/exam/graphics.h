@@ -7,7 +7,7 @@ const int SizeX = 1200;
 const int SizeY = 1000;
 
 const double XY_Scale  = 2*1e6;
-      double VecScale  =   1e7;
+      double VecScale  = 2*1e8;
 
 
 int XToPixels (double x);
@@ -84,7 +84,7 @@ void Draw (Vector Vector_, Vector Base, COLORREF color, int width)
 
 void FreezingSystem (void)
 {
-    if (GetKeyState (VK_CAPITAL))
+    if (!GetKeyState (VK_CAPITAL))
         {
             txSetFillColor (TX_BLACK);
             txClear();
