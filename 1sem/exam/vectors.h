@@ -22,6 +22,7 @@ Vector operator - (Vector v1, Vector v2);
 Vector operator * (Vector v, double val);
 Vector operator / (Vector v, double val);
 Vector operator + (Vector v);
+Vector operator - (Vector v);
 
 // #==============================================================# //
 
@@ -62,12 +63,14 @@ double Dist2 (Vector v1, Vector v2)
     return sqr (v1.x - v2.x) + sqr (v1.y - v2.y);
 }
 
-Vector operator + (Vector v1, Vector v2)    { return Add (v1, v2);  }
+Vector operator + (Vector v1, Vector v2) { return Add (v1, v2);  }
 
-Vector operator - (Vector v1, Vector v2)    { return Sub (v1, v2);  }
+Vector operator - (Vector v1, Vector v2) { return Sub (v1, v2);  }
 
 Vector operator * (Vector v, double val) { return Mul (v, val);  }
 
 Vector operator / (Vector v, double val) { return Div (v, val);  }
 
 Vector operator + (Vector v)             { return Normalize (v); }
+
+Vector operator - (Vector v)             { return Mul (v , -1);  }
