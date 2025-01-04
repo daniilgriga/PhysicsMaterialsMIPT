@@ -7,6 +7,7 @@ Vector ResultForce (MassPoint Point, MassPoint Earth, MassPoint Moon, bool draw_
 
 int main ()
 {
+    _txWindowStyle &= ~WS_CAPTION;
     txCreateWindow (SizeX, SizeY);
 
     MassPoint Earth = { {         0*KM          ,          0*KM       },  MASS_EARTH, RAD_EARTH };
@@ -31,8 +32,9 @@ int main ()
 
         bool CurButton  = txMouseButtons () & 1;
 
-        if (  CurButton && !PrevButton ) { Comet.pos = Mouse.pos; } //TODO -> func -> "launch comet"
-        if ( !CurButton &&  PrevButton ) { Comet.v   = {};        }
+        if (  CurButton && !PrevButton ) { Comet.pos = Mouse.pos;         }               //TODO ->  func  -> "launch comet"
+        if ( !CurButton &&  PrevButton ) { Comet.v   = (Comet.pos - Mouse.pos) / 100e3; } //TODO -> Rotate -> Windows with datas
+        if (  CurButton  ) Line (Mouse.pos, Comet.pos, TX_WHITE, 1);
 
         PrevButton = CurButton;
 
@@ -43,7 +45,7 @@ int main ()
             Kinematics (&Comet, CometForceV);
         }
 
-        $( Length( Comet.v ) );
+        $ (Length (Comet.v));
 
         Vector PointForceV = ResultForce (Mouse, Earth, Moon, true);
     }
@@ -62,7 +64,7 @@ Vector ResultForce (MassPoint Point, MassPoint Earth, MassPoint Moon, bool draw_
     if (draw_status == true)
     {
         Draw (EarthForceV, Point.pos, TX_LIGHTGREEN, 3);
-        Draw (MoonForceV , Point.pos, TX_WHITE, 3);
+        Draw (MoonForceV , Point.pos, TX_WHITE, 2);
         Draw (   EarthForceV + MoonForceV  , Point.pos, TX_RED , 2);
         Draw ( -(EarthForceV + MoonForceV) , Point.pos, TX_CYAN, 2);
         Draw (CentrifugalForceV  * 1, Point.pos, TX_PINK, 1);
