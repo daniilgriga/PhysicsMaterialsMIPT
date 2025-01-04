@@ -3,12 +3,24 @@
 #include "vectors.h"
 #include "physics.h"
 
-const int SizeX = 1200;
-const int SizeY = 1000;
+const int SizeX = GetSystemMetrics (SM_CXSCREEN);
+const int SizeY = GetSystemMetrics (SM_CYSCREEN);
 
 const double XY_Scale  = 2*1e6;
-      double VecScale  = 2*1e8;
+      double VecScale  = 3.5*1e8;
 
+struct Rect
+{
+    int x;
+    int y;
+
+    int size_x;
+    int size_y;
+
+    COLORREF color;
+
+    const char* text;
+};
 
 int XToPixels (double x);
 int YToPixels (double y);
@@ -16,14 +28,14 @@ int YToPixels (double y);
 double XToKMs (double x);
 double YToKMs (double y);
 
-void Draw (MassPoint point, COLORREF color);
-void Circle (Vector pos, double radius, COLORREF color);
+void Line (const Vector& p1, const Vector& p2, COLORREF color, int width);
+void Circle (const Vector& pos, double radius, COLORREF color);
 void Circle_3D (double x, double y, double radius, COLORREF color);
 
-void Line (Vector p1, Vector p2, COLORREF color, int width);
-void Draw (Vector Vector_, Vector Base, COLORREF color, int width);
+void Draw (const MassPoint& point,   COLORREF color);
+void Draw (const Vector&    Vector_, const Vector& Base, COLORREF color, int width);
 
-void FreezingSystem (void);
+void StopClear (void);
 
 // #==============================================================================# //
 
@@ -35,7 +47,7 @@ double XToKMs (double x) { return  (x - SizeX/2) * XY_Scale; }
 
 double YToKMs (double y) { return (-y + SizeY/2) * XY_Scale; }
 
-void Draw (MassPoint point, COLORREF color)
+void Draw (const MassPoint& point, COLORREF color)
 {
     Circle (point.pos, point.r / XY_Scale * 9, color);
 }
@@ -55,34 +67,34 @@ void Circle_3D (double x, double y, double radius, COLORREF color)
     }
 }
 
-void Circle (Vector pos, double radius, COLORREF color)
+void Circle (const Vector& pos, double radius, COLORREF color)
 {
     Circle_3D ( XToPixels (pos.x) , YToPixels (pos.y) , radius, color );
 }
 
-void Line (Vector p1, Vector p2, COLORREF color, int width)
+void Line (const Vector& p1, const Vector& p2, COLORREF color, int width)
 {
     txSetColor (color, width);
 
     txLine ( XToPixels (p1.x), YToPixels (p1.y), XToPixels (p2.x), YToPixels (p2.y) );
 }
 
-void Draw (Vector Vector_, Vector Base, COLORREF color, int width)
+void Draw (const Vector& Vector_, const Vector& Base, COLORREF color, int width)
 {
-    Vector_ = Mul (Vector_, VecScale);
+    Vector Vec = Mul (Vector_, VecScale);
 
     txSetColor (color);
-    Line (Base, Base + Vector_, color, width);
+    Line (Base, Base + Vec, color, width);
 
-    Vector arr = Vector_/10;
+    Vector arr = Vec/10;
     Vector norm1 = Vector {  arr.y, -arr.x },
            norm2 = Vector { -arr.y,  arr.x };
 
-    Line (Base + Vector_, Base + Vector_ + (norm1 - arr), color, width);
-    Line (Base + Vector_, Base + Vector_ + (norm2 - arr), color, width);
+    Line (Base + Vec, Base + Vec + (norm1 - arr), color, width);
+    Line (Base + Vec, Base + Vec + (norm2 - arr), color, width);
 }
 
-void FreezingSystem (void)
+void StopClear (void)
 {
     if (!GetKeyState (VK_CAPITAL))
         {
