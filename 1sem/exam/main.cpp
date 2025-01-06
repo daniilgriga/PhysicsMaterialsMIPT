@@ -33,9 +33,21 @@ int main ()
         MassPoint Mouse = { { XToKMs (ms.x) , YToKMs (ms.y) }, MASS_COMET, RAD_COMET };
 
         bool CurButton  = txMouseButtons () & 1;
+        if (!GetKeyState (VK_CAPITAL))
+	{
+            COLORREF color = RGB (32, 32, 32);
+            Line (Mouse.pos, Earth.pos, color, 1); Dimension ( Moon.pos, Earth.pos);
+            Line (Moon.pos,  Earth.pos, color, 1); Dimension (Mouse.pos, Earth.pos);
+            Line (Mouse.pos,  Moon.pos, color, 1); Dimension (Mouse.pos,  Moon.pos);
+        }
+	   
+	Vector r = Comet.pos - Earth.pos;
+	Vector norm1 = Vector { -r.y, r.x };
+
+	Draw (+norm1 * (MOON_SPEED * Length (Comet.pos) / DIST_EARTH_MOON) / 2e3, Comet.pos, TX_LIGHTCYAN, 1);
 
         if (  CurButton && !PrevButton ) { Comet.pos = Mouse.pos;         }               //TODO ->  func  -> "launch comet"
-        if ( !CurButton &&  PrevButton ) { Comet.v   = (Comet.pos - Mouse.pos) / 100e3; } //TODO -> Rotate -> Windows with datas
+        if ( !CurButton &&  PrevButton ) { Comet.v   = ((Comet.pos - Mouse.pos) / 100e3) + (+norm1 * (MOON_SPEED * Length (Mouse.pos) / DIST_EARTH_MOON)); } //TODO -> Rotate -> Windows with datas
         if (  CurButton  ) Line (Mouse.pos, Comet.pos, TX_WHITE, 1);
 
         PrevButton = CurButton;
@@ -56,6 +68,12 @@ int main ()
             Vector CometForceV = ResultForceForPoint (Comet, Earth, Moon, false);
             Kinematics (&Comet, CometForceV);
         }
+
+	if (GetAsyncKeyState(VK_SPACE))
+	    dT = 0;
+	if (!GetAsyncKeyState(VK_SPACE))
+	    dT = 1e3;
+
     }
 
     return 0;
@@ -75,7 +93,7 @@ Vector ResultForceForPoint (const MassPoint& Point, const MassPoint& Earth, cons
     {
         Draw (EarthForceV, Point.pos, TX_LIGHTGREEN, 3);
         Draw (MoonForceV , Point.pos, TX_WHITE, 2);
-        Draw (   EarthForceV + MoonForceV  , Point.pos, TX_RED , 2);
+        Draw (   EarthForceV + MoonForceV  , Point.pos, TX_PINK , 2);
         Draw ( -(EarthForceV + MoonForceV) , Point.pos, TX_CYAN, 2);
         // Draw (CentrifugalForceV  * 1, Point.pos, TX_PINK, 1);
 

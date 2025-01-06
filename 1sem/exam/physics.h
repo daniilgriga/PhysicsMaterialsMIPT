@@ -6,7 +6,7 @@ const double KM = 1e3;
 const double KG = 1;
 const double  S = 1;
 
-const double dT = 1e3;
+      double dT = 1e3;
 
 const double DIST_EARTH_MOON = 384000*KM;
 const double DIST_EARTH_CM   = 4671*KM;

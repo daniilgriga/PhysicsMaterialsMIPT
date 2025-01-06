@@ -35,6 +35,9 @@ void Circle_3D (double x, double y, double radius, COLORREF color);
 void Draw (const MassPoint& point,   COLORREF color);
 void Draw (const Vector&    Vector_, const Vector& Base, COLORREF color, int width);
 
+void Dimension (Vector p1, Vector p2, COLORREF color = TX_WHITE, int size = 20);
+void Text (Vector pos, const char* str, COLORREF color = TX_WHITE);
+
 void StopClear (void);
 
 // #==============================================================================# //
@@ -87,11 +90,36 @@ void Draw (const Vector& Vector_, const Vector& Base, COLORREF color, int width)
     Line (Base, Base + Vec, color, width);
 
     Vector arr = Vec/10;
-    Vector norm1 = Vector {  arr.y, -arr.x },
-           norm2 = Vector { -arr.y,  arr.x };
+    Vector norm1 = Vector {  arr.y, -arr.x } / 3,
+           norm2 = Vector { -arr.y,  arr.x } / 3;
 
     Line (Base + Vec, Base + Vec + (norm1 - arr), color, width);
     Line (Base + Vec, Base + Vec + (norm2 - arr), color, width);
+}
+
+void Text (Vector pos, const char* str, COLORREF color)
+{
+    pos = {(double) XToPixels (pos.x), (double) YToPixels (pos.y)};
+
+    txSetColor (color);
+    txTextOut (pos.x, pos.y, str);
+}
+
+void Dimension (Vector p1, Vector p2, COLORREF color,            int size)
+{
+    Vector dist = p1 - p2;
+
+    char str[1024] = "";
+    sprintf (str, "%+.3le", Length (dist));
+
+    double angle = atan2 (dist.y, dist.x) / M_PI * 180;
+    if (!isfinite (angle)) angle = 0;
+    if (-90 <= angle && angle <= +90) angle = 180 + angle;
+
+    txSelectFont ("Arial", size, -1, FW_DONTCARE, false, false, false, 180 - angle);
+    txSetTextAlign (TA_CENTER | TA_BOTTOM);
+
+    Text (p2 + dist/2, str, color);
 }
 
 void StopClear (void)
