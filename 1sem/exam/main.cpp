@@ -60,8 +60,8 @@ int main ()
 
         ResultForceForPoint (Mouse, Earth, Moon, true);
 
-        $_(Length (Comet.v));
-        $ (Length (Moon.pos));
+        //$_(Length (Comet.v));
+        //$ (Length (Moon.pos));	
 
         if (!CurButton)
         {
@@ -69,10 +69,8 @@ int main ()
             Kinematics (&Comet, CometForceV);
         }
 
-	if (GetAsyncKeyState(VK_SPACE))
-	    dT = 0;
-	if (!GetAsyncKeyState(VK_SPACE))
-	    dT = 1e3;
+	if ( GetAsyncKeyState(VK_SPACE)) dT = 0;
+	if (!GetAsyncKeyState(VK_SPACE)) dT = 1e4;
 
     }
 

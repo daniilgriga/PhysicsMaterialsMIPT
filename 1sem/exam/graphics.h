@@ -6,7 +6,7 @@
 const int SizeX = GetSystemMetrics (SM_CXSCREEN);
 const int SizeY = GetSystemMetrics (SM_CYSCREEN);
 
-const double XY_Scale  = 2*1e6;
+const double XY_Scale  = 1*1e6;
       double VecScale  = 3.5*1e8;
 
 struct Rect
@@ -61,7 +61,7 @@ void Circle_3D (double x, double y, double radius, COLORREF color)
     double g = txExtractColor (color, TX_GREEN) / 255.0;
     double b = txExtractColor (color, TX_BLUE)  / 255.0;
 
-    for (double t = 0; t <= 1; t += 0.1)
+    for (double t = 0; t <= 1; t += 0.05)
     {
         double t0 = pow (t + 0.15, 0.3);
         txColor     (r*t0, g*t0, b*t0);
