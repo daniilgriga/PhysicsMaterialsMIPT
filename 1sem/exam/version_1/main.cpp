@@ -22,7 +22,7 @@ int main ()
     {
         POINT ms = txMousePos();
         if (ms.x < 0 || ms.y < 0)
-            continue;
+            continue;                 
 
         StopClear();
 
@@ -70,7 +70,7 @@ int main ()
         }
 
 	if ( GetAsyncKeyState(VK_SPACE)) dT = 0;
-	if (!GetAsyncKeyState(VK_SPACE)) dT = 1e4;
+	if (!GetAsyncKeyState(VK_SPACE)) dT = 1e3;
 
     }
 
@@ -113,7 +113,7 @@ Vector ResultForceForMoon (const MassPoint& Earth, const MassPoint& Moon, bool d
 
 //     Draw (CentrifugalForceV  / 3e20, Moon.pos, TX_PINK, 1);
 
-       Draw (ResultForceV / 5e20, Moon.pos, TX_YELLOW, 1);
+//       Draw (ResultForceV / 5e20, Moon.pos, TX_YELLOW, 1);
     }
 
     return ResultForceV;
