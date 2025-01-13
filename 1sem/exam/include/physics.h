@@ -13,7 +13,7 @@ const double DIST_EARTH_CM   = 4671*KM;
 
 const double MASS_EARTH   = 5.9700e24*KG;
 const double MASS_MOON    = 0.0735e24*KG;
-const double MASS_COMET   = 100*KG;
+const double MASS_COMET   = 1*KG;
 
 const int RAD_EARTH   = 6400*KM;
 const int RAD_MOON    = 1737*KM;
@@ -55,10 +55,10 @@ Vector Gravity (const MassPoint& Point_1, const MassPoint& Point_2)
 }
 
 Vector CentrifugalForce (const MassPoint& Point, const MassPoint& centre)
-{
+{                                
     double Velocity = MOON_SPEED * Length (Point.pos) / DIST_EARTH_MOON;
 
-    double CentrifugalForce = Point.m * sqr (Velocity) / Length (Point.pos - centre.pos);
+    double CentrifugalForce = Point.m * sqr (Velocity) / Length (Point.pos);
 
     Vector CentrifugalForceV = +Point.pos * CentrifugalForce;
 

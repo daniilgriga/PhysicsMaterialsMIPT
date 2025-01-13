@@ -14,8 +14,14 @@ int main ()
 
     MassPoint Earth = { {       0*KM - DIST_EARTH_CM      ,          0*KM       },  MASS_EARTH, RAD_EARTH, { 0, -EARTH_SPEED } };
     MassPoint Moon  = { { DIST_EARTH_MOON - DIST_EARTH_CM ,          0*KM       },  MASS_MOON , RAD_MOON , { 0,  +MOON_SPEED } };
-    MassPoint Comet = { {              0*KM               ,    DIST_EARTH_MOON  },  MASS_COMET, RAD_COMET                      };
+    MassPoint Comet = { {            2.5 *  DIST_EARTH_MOON ,    DIST_EARTH_MOON  },  MASS_COMET, RAD_COMET                      };
 
+    MassPoint L_1   = { {  DIST_EARTH_MOON - DIST_EARTH_CM - 61479.2*KM , 0*KM } ,   MASS_COMET, RAD_COMET};
+    MassPoint L_2   = { {  DIST_EARTH_MOON - DIST_EARTH_CM + 61479.2*KM , 0*KM } ,   MASS_COMET, RAD_COMET};
+    MassPoint L_3   = { {    - 385969.8*KM                              , 0*KM } ,   MASS_COMET, RAD_COMET};   
+    MassPoint L_4   = { { (DIST_EARTH_MOON - DIST_EARTH_CM)/2 ,    332553.8*KM } ,   MASS_COMET, RAD_COMET};
+    MassPoint L_5   = { { (DIST_EARTH_MOON - DIST_EARTH_CM)/2 ,   -332553.8*KM } ,   MASS_COMET, RAD_COMET};
+	
     bool PrevButton = false;
 
     while (txSleep(), !GetAsyncKeyState (VK_ESCAPE))
@@ -30,6 +36,12 @@ int main ()
         Draw (Moon , TX_WHITE);
         Draw (Comet, TX_LIGHTCYAN);
 
+	Draw (L_1, TX_CYAN);
+	Draw (L_2, TX_CYAN);
+	Draw (L_3, TX_CYAN);
+	Draw (L_4, TX_CYAN);
+	Draw (L_5, TX_CYAN);
+
         MassPoint Mouse = { { XToKMs (ms.x) , YToKMs (ms.y) }, MASS_COMET, RAD_COMET };
 
         bool CurButton  = txMouseButtons () & 1;
@@ -41,13 +53,13 @@ int main ()
             Line (Mouse.pos,  Moon.pos, color, 1); Dimension (Mouse.pos,  Moon.pos);
         }
 	   
-	Vector r = Comet.pos - Earth.pos;
+	Vector r = Comet.pos; // - Earth.pos;
 	Vector norm1 = Vector { -r.y, r.x };
 
-	Draw (+norm1 * (MOON_SPEED * Length (Comet.pos) / DIST_EARTH_MOON) / 2e3, Comet.pos, TX_LIGHTCYAN, 1);
+//	Draw (+norm1 * (MOON_SPEED * Length (Comet.pos) / DIST_EARTH_MOON) / 2e3, Comet.pos, TX_LIGHTCYAN, 1);
 
-        if (  CurButton && !PrevButton ) { Comet.pos = Mouse.pos;         }               //TODO ->  func  -> "launch comet"
-        if ( !CurButton &&  PrevButton ) { Comet.v   = ((Comet.pos - Mouse.pos) / 100e3) + (+norm1 * (MOON_SPEED * Length (Mouse.pos) / DIST_EARTH_MOON)); } //TODO -> Rotate -> Windows with datas
+        if (  CurButton && !PrevButton ) { Comet.pos = Mouse.pos;}                                                                                           //TODO ->  func  -> "launch comet"
+        if ( !CurButton &&  PrevButton ) { Comet.v   = ((Comet.pos - Mouse.pos) / 100e3) + (+norm1 * (MOON_SPEED * Length (Mouse.pos) / (Length (Moon.pos) - DIST_EARTH_CM))); } //TODO -> Rotate -> Windows with datas
         if (  CurButton  ) Line (Mouse.pos, Comet.pos, TX_WHITE, 1);
 
         PrevButton = CurButton;
@@ -89,13 +101,13 @@ Vector ResultForceForPoint (const MassPoint& Point, const MassPoint& Earth, cons
 
     if (draw_status == true)
     {
-        Draw (EarthForceV, Point.pos, TX_LIGHTGREEN, 3);
-        Draw (MoonForceV , Point.pos, TX_WHITE, 2);
-        Draw (   EarthForceV + MoonForceV  , Point.pos, TX_PINK , 2);
-        Draw ( -(EarthForceV + MoonForceV) , Point.pos, TX_CYAN, 2);
+        Draw (EarthForceV * 175, Point.pos, TX_LIGHTGREEN, 3);
+        Draw (MoonForceV * 175, Point.pos, TX_WHITE, 2);
+        //Draw (   EarthForceV + MoonForceV  , Point.pos, TX_PINK , 2);
+        //Draw ( -(EarthForceV + MoonForceV) , Point.pos, TX_CYAN, 2);
         // Draw (CentrifugalForceV  * 1, Point.pos, TX_PINK, 1);
 
-        Draw (ResultForceV, Point.pos, TX_YELLOW, 1);
+        Draw (ResultForceV * 175, Point.pos, TX_YELLOW, 1);
     }
 
     return ResultForceV;

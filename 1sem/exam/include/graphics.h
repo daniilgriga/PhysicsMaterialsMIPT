@@ -6,8 +6,8 @@
 const int SizeX = GetSystemMetrics (SM_CXSCREEN);
 const int SizeY = GetSystemMetrics (SM_CYSCREEN);
 
-const double XY_Scale  = 1*1e6;
-      double VecScale  = 3.5*1e8;
+const double XY_Scale  = 0.8*1e6;
+      double VecScale  = 4*1e8;
 
 struct Rect
 {
