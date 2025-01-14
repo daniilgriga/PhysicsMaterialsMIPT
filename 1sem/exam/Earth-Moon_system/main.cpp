@@ -70,10 +70,9 @@ int main ()
         Vector EarthForceV = ResultForceForMoon (Moon, Earth,        true);
         Kinematics (&Earth, EarthForceV);
 
-        ResultForceForPoint (Mouse, Earth, Moon, true);
-
-        //$_(Length (Comet.v));
         //$ (Length (Moon.pos));	
+
+	ResultForceForPoint (Mouse, Earth, Moon, true);
 
         if (!CurButton)
         {
@@ -82,7 +81,7 @@ int main ()
         }
 
 	if ( GetAsyncKeyState(VK_SPACE)) dT = 0;
-	if (!GetAsyncKeyState(VK_SPACE)) dT = 1e3;
+	if (!GetAsyncKeyState(VK_SPACE)) dT = 2e3;
 
     }
 

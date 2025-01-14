@@ -15,8 +15,8 @@ int main ()
     MassPoint Moon  = { { DIST_EARTH_MOON - DIST_EARTH_CM ,          0*KM       },  MASS_MOON , RAD_MOON , { 0,  +MOON_SPEED } };
     MassPoint Comet = { {       2.5*DIST_EARTH_MOON       ,    DIST_EARTH_MOON  },  MASS_COMET, RAD_COMET                      };
 
-    MassPoint L_1   = { {  DIST_EARTH_MOON - DIST_EARTH_CM - 61479.2*KM , 0*KM } ,   MASS_COMET, RAD_COMET};
-    MassPoint L_2   = { {  DIST_EARTH_MOON - DIST_EARTH_CM + 61479.2*KM , 0*KM } ,   MASS_COMET, RAD_COMET};
+    MassPoint L_1   = { {  DIST_EARTH_MOON - DIST_EARTH_CM - 59579.2*KM , 0*KM } ,   MASS_COMET, RAD_COMET};
+    MassPoint L_2   = { {  DIST_EARTH_MOON - DIST_EARTH_CM + 59579.2*KM , 0*KM } ,   MASS_COMET, RAD_COMET};
     MassPoint L_3   = { {    - 385969.8*KM                              , 0*KM } ,   MASS_COMET, RAD_COMET};   
     MassPoint L_4   = { { (DIST_EARTH_MOON - DIST_EARTH_CM)/2 ,    332553.8*KM } ,   MASS_COMET, RAD_COMET};
     MassPoint L_5   = { { (DIST_EARTH_MOON - DIST_EARTH_CM)/2 ,   -332553.8*KM } ,   MASS_COMET, RAD_COMET};
@@ -31,15 +31,15 @@ int main ()
 
         StopClear ();
 
-        Draw (Earth, TX_LIGHTGREEN);
-        Draw (Moon , TX_WHITE);
-        Draw (Comet, TX_LIGHTCYAN);
-
-	Draw (L_1, TX_CYAN);
+        Draw (L_1, TX_CYAN);
 	Draw (L_2, TX_CYAN);
 	Draw (L_3, TX_CYAN);
 	Draw (L_4, TX_CYAN);
 	Draw (L_5, TX_CYAN);
+
+        Draw (Earth, TX_LIGHTGREEN);
+        Draw (Moon , TX_WHITE);
+        Draw (Comet, TX_YELLOW);
 
         MassPoint Mouse = { { XToKMs (ms.x) , YToKMs (ms.y) }, MASS_COMET, RAD_COMET };
 
@@ -53,14 +53,14 @@ int main ()
 
         if (!CurButton)
         {
-            Vector CometForceV = ResultForce (Comet, Earth, Moon, true);
+            Vector CometForceV = ResultForce (Comet, Earth, Moon, false);
 
             Kinematics (&Comet, CometForceV);
         }
 
         $ (Length (Comet.v));
 
-        Vector PointForceV = ResultForce (Mouse, Earth, Moon, true);
+       /* Vector PointForceV = */ResultForce (Mouse, Earth, Moon, true);
     }
 
     return 0;
@@ -70,19 +70,19 @@ Vector ResultForce (MassPoint Point, MassPoint Earth, MassPoint Moon, bool draw_
 {
     Vector       EarthForceV = Gravity (Earth, Point);
     Vector        MoonForceV = Gravity (Moon , Point);
-    Vector CentrifugalForceV = CentrifugalForce (Point, Earth);
+    Vector CentrifugalForceV = CentrifugalForce (Point);
 
     Vector ResultForceV = EarthForceV + MoonForceV + CentrifugalForceV;
 
     if (draw_status == true)
     {
-        Draw (EarthForceV * 175, Point.pos, TX_LIGHTGREEN, 3);
-        Draw (MoonForceV * 175 , Point.pos, TX_WHITE, 2);
+        Draw (EarthForceV * 1, Point.pos, TX_LIGHTGREEN, 3);
+        Draw (MoonForceV * 1 , Point.pos, TX_WHITE, 2);
         //Draw (   (EarthForceV + MoonForceV) * 175, Point.pos, TX_RED , 2);
         //Draw ( -(EarthForceV + MoonForceV) * 175 , Point.pos, TX_CYAN, 2);
-        Draw (CentrifugalForceV  * 175, Point.pos, TX_PINK, 1);
+        Draw (CentrifugalForceV  * 1, Point.pos, TX_PINK, 1);
 
-        Draw (ResultForceV*175, Point.pos, TX_YELLOW, 1);
+        Draw (ResultForceV*1, Point.pos, TX_YELLOW, 4);
     }
 
     return ResultForceV;
