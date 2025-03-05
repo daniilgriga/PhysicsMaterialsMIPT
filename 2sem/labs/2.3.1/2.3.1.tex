@@ -39,7 +39,7 @@
 \vspace{3.5cm}
 
 \begin{center}
-    \includegraphics[width=0.4\linewidth]{hv_full.png}
+    \includegraphics[width=0.4\linewidth]{img/hv_full.png}
 \end{center}
 
 \vspace{0.1cm}
@@ -126,7 +126,7 @@
 
     \begin{figure}[H]
         \centering
-        \includegraphics[scale=2]{stand.png}
+        \includegraphics[scale=2]{img/stand.png}
         \caption{Схема экспериментальной установки}
         \label{facility}
     \end{figure}
@@ -196,10 +196,104 @@
         \item Когда давление достигнет $10^{-3}$ торр, включим ионизационный
         манометр.
         \item По достижении $1{,}6\cdot 10^{-4}$ торр начнем дегазацию.
-        \item Получаем предельное давление $P_{\text{пр}} = 5{,}3\cdot 10^{-5}$
+        \item Получаем предельное давление $P_{\text{пр}} = 7{,}5\cdot 10^{-5}$
         торр.
         \item Остановим откачку и откроем кран К3. Снимем зависимость $P(t)$
         в процессе ухудшения, а затем в процессе улучшения вакуума.
         \item Все результаты представим на графиках:
+
+        \begin{figure}[h!]
+            \centering
+            \begin{minipage}{0.45\textwidth}
+                \centering
+                \includegraphics[width=1\linewidth]{img/rise1.png}
+                \captionof{figure}{Ухудшение вакуума 1}
+                \label{rise1}
+            \end{minipage}
+            \begin{minipage}{0.45\textwidth}
+                \centering
+                \includegraphics[width=1\linewidth]{img/fall1.png}
+                \captionof{figure}{Улучшение вакуума 1}
+                \label{fall1}
+            \end{minipage}
+        \end{figure}
+
+        \begin{figure}[h!]
+            \centering
+            \begin{minipage}{0.45\textwidth}
+                \centering
+                \includegraphics[width=1\linewidth]{img/rise2.png}
+                \captionof{figure}{Ухудшение вакуума 2}
+                \label{rise2}
+            \end{minipage}
+            \begin{minipage}{0.45\textwidth}
+                \centering
+                \includegraphics[width=1\linewidth]{img/fall2.png}
+                \captionof{figure}{Улучшение вакуума 2}
+                \label{fall2}
+            \end{minipage}
+        \end{figure}
+
+    Из графиков $\ref{fall1}$ и \ref{fall2} по МНК получаем коэффициенты прямых:
+
+        $$    k_1 = (-0.203 \pm 0.090) \text{с}^{-1}     $$
+        $$    k_2 = (-0.188 \pm 0.010) \text{с}^{-1}     $$
+        $$    k_{\text{ср}} = (-0.195 \pm 0.011 ) \text{с}^{-1} $$
+
+        Из формулы (\ref{exp}) приборная погрешность скорости откачки:
+
+        $$    \sigma_W^{\text{приб}} = W \sqrt{\left( \frac{\sigma_{V_{\text{вв}}}}{V_{\text{вв}}} \right)^2 + \left( \frac{\sigma_{t}}{t} \right)^2 + \left( \frac{\sigma_{P - P_{\text{пред}}}}{(P - P_{\text{пред}}) ln(P - P_{\text{пред}})} \right)^2}$$
+        $$    \sigma_W = \sqrt{{\sigma_W^{\text{случ}}}^2 + {\sigma_W^{\text{приб}}}^2} = 50 \text{см}^3/\text{с} $$
+
+        Итого:
+
+        $$    W = -k_{\text{ср}} * V_{\text{вв}} = (230 \pm 547) \text{см}^3/\text{с} $$
+
+    \item Оценивим величину потока газа, поступающего из насоса назад в откачиваемую систему.
+        Воспользуемся уравнением
+
+        $$    V_{\text{вв}} dP = (Q_{\text{д}} + Q_{\text{и}})dt $$
+
+        Получаем зависимость (k - средний из двух коэффициентов наклона прямых графиков в координатах $P(t)$ при ухудшении вакуума)
+        $$    Q_{\text{д}} + Q_{\text{и}} = k V_{\text{вв}} $$
+
+        $$    k_1 = (1.011 \pm 0.009) * 10^{-5} \text{мм.рт.ст/с}$$
+        $$    k_2 = (1.053 \pm 0.015) * 10^{-5} \text{мм.рт.ст/с}$$
+        $$    k = (1.032 \pm 0.024) * 10^{-5}   \text{мм.рт.ст/с} $$
+
+        Зная также, что $P_{\text{пред}}W = Q_{\text{д}} + Q_{\text{и}} + Q_{\text{н}}$, получим
+
+%        $$    Q_{\text{в}} = P_{\text{пред}} W - k V_{\text{вв}} = 7 * 10^{-3} \text{мм.рт.ст*см^3/с} $$
+        $$    \sigma_{Q_{\text{н}}}^{приб} = \sqrt{ \left( \frac{P V_{\text{вв}}}{t} \right)^2 \left( \left( \frac{\sigma_P}{P} \right)^2 + \left( \frac{\sigma_{V_{\text{вв}}}}{V_{\text{вв}}} \right)^2 + \left( \frac{\sigma_t}{t} \right)^2 \right) + \left( P_{\text{пред}} W \right)^2 \left( \left( \frac{\sigma_{P_{\text{пред}}}}{P_{\text{пред}}} \right)^2 + \left( \frac{\sigma_W}{W} \right)^2 \right)}$$
+%       $$    \sigma_{Q_{\text{н}}} = 7 * 10^{-3} \text{мм.рт.ст*см^3/с}$$
+
+%    \item Оценим пропускную способность трубки от высоковакуумного баллона до насоса.
+%
+%        Вычислим по формуле (\ref{ty}) и соответствующей формуле для приборной погрешности.
+%
+%        $C_{тр} = (600 \pm 500) \text{см^3/с}$
+%
+%        Как видим, полученное значение вполне согласуется с рассчитанной ранее производительностью насоса.
+%
+%    \item Вводим искуственную течь в систему.
+%
+%        То есть открываем кран между форвакуумной и высоковакуумными частями установки. В результате через 3-5 минут в обеих частях установились разные давления:
+%
+%        $$    P_{\text{уст}} &= (2.0 \pm 0.6)*10^{-4} \text{мм.рт.ст}$$
+%        $$    P_{\text{фв}} &= (1.0 \pm 0.3)*10^{-3} \text{мм.рт.ст} $$
+%
+%    \item Рассчитаем производительность диффузионного насоса через $P_{уст}$ и $P_{фв}$.
+%
+%	    $$P_{пред}W = Q_1, \quad P_{уст}W = Q_1 + \frac{(PV)_{кап}}{dt}$$
+%
+%        $$W = \frac{C_{тр} P_{фв}}{P_{уст} - P_{пред}}$$
+%
+%        Аналогично предыдущим пунктам рассчитываем полную погрешность и само значение:
+%
+%        $$W = (5 \pm 4)~л/c$$
+%
+%        Напомним, что ранее мы получили производительность насоса $W = (0.23 \pm 0.05)~л/с$.
+
+    \end{enumerate}
 
 \end{document}
