@@ -37,7 +37,7 @@
 \vspace{3.5cm}
 
 \begin{center}
-    \includegraphics[width=0.4\linewidth]{img/hv_full.png}
+    \includegraphics[width=0.4\linewidth]{hv_full.png}
 \end{center}
 
 \vspace{0.05cm}
@@ -146,7 +146,7 @@
 
     \begin{figure}[H]
         \centering
-        \includegraphics[scale=2]{img/stand.png}
+        \includegraphics[scale=2]{stand.png}
         \caption{
         Схема установки для измерения температурной зависимости
         коэффициента поверхностного натяжения
@@ -248,7 +248,7 @@
         (см. рис. \ref{graph}).
         \begin{figure}[h!]
             \centering
-            \input{data/sigma_T.pgf}
+            \input{sigma_T.pgf}
             \caption{Графики $\sigma(T)$, $q(T)$, $U/\Pi(T)$}
             \label{graph}
         \end{figure}
@@ -256,9 +256,14 @@
         имеет смысл провести линейную аппроксимацию всех представленных
         зависимостей. Угловые коэффиценты и их погрешность считаем по формулам:
 
-        $$    \frac{d\sigma}{dT} = \frac{\left<T\sigma\right>}
-                {\left<T^2\right>}, \label{koef} $$
-        $$    \sigma_{d\sigma/dT}^{\text{случ}} = \sqrt{\frac{1}{N1}\left(\frac{\left<\sigma^2\right>} {\left<T^2\right>} - \left(\frac{d\sigma}{dT}\right)^2\right)}\label{dkoef}$$
+        \begin{equation}
+            \frac{d\sigma}{dT} = \frac{\left<T\sigma\right>}
+            {\left<T^2\right>} \label{koef}
+        \end{equation}
+
+        \begin{equation}
+            \sigma_{d\sigma/dT}^{\text{случ}} = \sqrt{\frac{1}{N1}\left(\frac{\left<\sigma^2\right>} {\left<T^2\right>} - \left(\frac{d\sigma}{dT}\right)^2\right)}\label{dkoef}
+        \end{equation}
 
         \item Вычисленные по формулам \ref{koef} и \ref{dkoef}
         угловые коэффициенты и их погрешности
